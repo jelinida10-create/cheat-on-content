@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Подать заявку</title>
+  <meta name="description" content="Оставьте заявку — мы поможем с открытием компании, визой и другими вопросами в ОАЭ">
+
+  <!-- PWA -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0B0E1A">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0B0E1A;
+      --surface: #141928;
+      --border: #1E2640;
+      --gold: #D4AF6A;
+      --gold-light: #E8C97D;
+      --text: #F0F2F5;
+      --muted: #8892A4;
+      --error: #FF6B6B;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 32px 16px;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(212,175,106,0.10) 0%, transparent 55%),
+        radial-gradient(ellipse 50% 40% at 90% 90%, rgba(212,175,106,0.05) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .wrap {
+      position: relative;
+      width: 100%;
+      max-width: 540px;
+    }
+
+    /* ── Header ── */
+    .hd {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 22px;
+    }
+
+    .brand-icon {
+      width: 42px; height: 42px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 11px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.2px;
+    }
+
+    .hd h1 {
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      margin-bottom: 10px;
+      background: linear-gradient(135deg, #F0F2F5 0%, #9AA5BA 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hd p {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+    }
+
+    /* ── Card ── */
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 36px 32px;
+    }
+
+    @media (max-width: 480px) {
+      .card { padding: 28px 20px; border-radius: 16px; }
+      .hd h1 { font-size: 22px; }
+    }
+
+    /* ── Form fields ── */
+    .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+    @media (max-width: 440px) { .row { grid-template-columns: 1fr; } }
+
+    .fg { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.7px;
+      margin-bottom: 8px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 11px;
+      padding: 13px 15px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.18s, box-shadow 0.18s;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    input::placeholder, textarea::placeholder { color: #3D4A60; }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212,175,106,0.13);
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='none' stroke='%238892A4' stroke-width='2'%3E%3Cpath d='M4 6l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 13px center;
+      padding-right: 40px;
+      cursor: pointer;
+    }
+
+    select option { background: #141928; }
+
+    textarea { resize: vertical; min-height: 115px; line-height: 1.6; }
+
+    .fg.err input, .fg.err select, .fg.err textarea { border-color: var(--error); }
+    .err-msg { font-size: 12px; color: var(--error); margin-top: 5px; }
+
+    /* ── Divider ── */
+    .divider { height: 1px; background: var(--border); margin: 24px 0; }
+
+    /* ── Submit ── */
+    .btn {
+      width: 100%;
+      padding: 15px;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+      color: #0B0E1A;
+      border: none;
+      border-radius: 11px;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.18s, transform 0.12s;
+      letter-spacing: 0.1px;
+    }
+    .btn:hover { opacity: 0.9; }
+    .btn:active { transform: scale(0.985); }
+    .btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+    .spin {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(11,14,26,0.25);
+      border-top-color: #0B0E1A;
+      border-radius: 50%;
+      animation: spin 0.55s linear infinite;
+      vertical-align: middle;
+      margin-right: 7px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Success ── */
+    .ok { display: none; text-align: center; padding: 12px 0; }
+
+    .ok-icon {
+      width: 70px; height: 70px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 22px;
+      font-size: 30px;
+      animation: pop 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes pop { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+    .ok h2 { font-size: 21px; font-weight: 700; margin-bottom: 10px; }
+    .ok p { color: var(--muted); font-size: 14px; line-height: 1.65; }
+
+    .btn-new {
+      display: inline-block;
+      margin-top: 22px;
+      padding: 11px 22px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      background: none;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 14px;
+      cursor: pointer;
+      transition: border-color 0.18s, color 0.18s;
+    }
+    .btn-new:hover { border-color: var(--gold); color: var(--gold); }
+
+    /* ── Footer ── */
+    .ft {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 12px;
+      color: #4A5568;
+    }
+  </style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <div class="brand">
+      <div class="brand-icon">🏙️</div>
+      <!-- ЗАМЕНИ НА НАЗВАНИЕ СВОЕЙ КОМПАНИИ -->
+      <span class="brand-name">Dubai Experts</span>
+    </div>
+    <h1>Оставить заявку</h1>
+    <p>Опишите ваш вопрос — мы свяжемся с вами<br>в течение нескольких часов</p>
+  </div>
+
+  <div class="card">
+
+    <form id="form">
+      <div class="row">
+        <div class="fg" id="fg-name">
+          <label for="name">Ваше имя</label>
+          <input type="text" id="name" placeholder="Алексей" autocomplete="given-name">
+        </div>
+        <div class="fg" id="fg-contact">
+          <label for="contact">Telegram / WhatsApp / Email</label>
+          <input type="text" id="contact" placeholder="@username или +7 999…">
+        </div>
+      </div>
+
+      <div class="fg" id="fg-topic">
+        <label for="topic">Тема запроса</label>
+        <select id="topic">
+          <option value="" disabled selected>Выберите тему</option>
+          <option value="Открытие компании в ОАЭ">🏢  Открытие компании в ОАЭ</option>
+          <option value="Виза / ВНЖ">🛂  Виза / ВНЖ</option>
+          <option value="Недвижимость">🏠  Недвижимость</option>
+          <option value="Банковский счёт">🏦  Банковский счёт</option>
+          <option value="Налоговое планирование">💼  Налоговое планирование</option>
+          <option value="Переезд в Дубай">✈️  Переезд в Дубай</option>
+          <option value="Другое">❓  Другое</option>
+        </select>
+      </div>
+
+      <div class="fg" id="fg-desc">
+        <label for="desc">Опишите ситуацию</label>
+        <textarea id="desc" placeholder="Расскажите подробнее — чем больше деталей, тем точнее мы поможем…"></textarea>
+      </div>
+
+      <div class="divider"></div>
+
+      <button type="submit" class="btn" id="submitBtn">Отправить заявку</button>
+    </form>
+
+    <div class="ok" id="ok">
+      <div class="ok-icon">✓</div>
+      <h2>Заявка принята!</h2>
+      <p>Мы получили ваш запрос и свяжемся<br>с вами в ближайшее время.</p>
+      <button class="btn-new" onclick="reset()">Подать ещё одну заявку</button>
+    </div>
+
+  </div>
+
+  <div class="ft">Все данные конфиденциальны и используются только для обработки вашей заявки</div>
+</div>
+
+<script>
+  // ─── ВСТАВЬ СЮДА URL ИЗ GOOGLE APPS SCRIPT ───
+  const SCRIPT_URL = 'YOUR_APPS_SCRIPT_URL_HERE';
+  // ─────────────────────────────────────────────
+
+  const form = document.getElementById('form');
+  const ok   = document.getElementById('ok');
+  const btn  = document.getElementById('submitBtn');
+
+  const fields = [
+    { id: 'name',    group: 'fg-name',    msg: 'Введите имя' },
+    { id: 'contact', group: 'fg-contact', msg: 'Укажите Telegram, WhatsApp или Email' },
+    { id: 'topic',   group: 'fg-topic',   msg: 'Выберите тему' },
+    { id: 'desc',    group: 'fg-desc',    msg: 'Опишите ситуацию' },
+  ];
+
+  function validate() {
+    let ok = true;
+    fields.forEach(f => {
+      const g = document.getElementById(f.group);
+      g.classList.remove('err');
+      const old = g.querySelector('.err-msg');
+      if (old) old.remove();
+    });
+    fields.forEach(f => {
+      const el = document.getElementById(f.id);
+      const g  = document.getElementById(f.group);
+      if (!el.value.trim()) {
+        g.classList.add('err');
+        const d = document.createElement('div');
+        d.className = 'err-msg';
+        d.textContent = f.msg;
+        g.appendChild(d);
+        ok = false;
+      }
+    });
+    return ok;
+  }
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spin"></span>Отправляем…';
+
+    const data = {
+      name:        document.getElementById('name').value.trim(),
+      contact:     document.getElementById('contact').value.trim(),
+      topic:       document.getElementById('topic').value,
+      description: document.getElementById('desc').value.trim(),
+    };
+
+    try {
+      if (SCRIPT_URL === 'YOUR_APPS_SCRIPT_URL_HERE') {
+        // Демо-режим — работает без бэкенда
+        await new Promise(r => setTimeout(r, 1100));
+      } else {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(data),
+        });
+      }
+      showOk();
+    } catch {
+      alert('Ошибка при отправке. Попробуйте ещё раз.');
+      btn.disabled = false;
+      btn.textContent = 'Отправить заявку';
+    }
+  });
+
+  function showOk() {
+    form.style.display = 'none';
+    ok.style.display = 'block';
+  }
+
+  function reset() {
+    form.reset();
+    form.style.display = 'block';
+    ok.style.display = 'none';
+    btn.disabled = false;
+    btn.textContent = 'Отправить заявку';
+  }
+</script>
+</body>
+</html>
