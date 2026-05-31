@@ -1,6 +1,6 @@
 ---
 name: cheat-on-content
-description: 给所有想把"感觉"变成可校准预测的内容创作者。**方法论通用**——打分 → 盲预测 → T+3d 复盘 → 进化 rubric 的循环适用任何能被量化（播放 / 阅读 / 收听 / 点击）的内容。**rubric 是循环的内容，不是循环本身**——当前内置一份观点视频 rubric（参考博主 25+ 视频拟合），其他形态可借这套起步并 bump 调权重。**强烈建议导入对标账号**作为初始信号源（/cheat-learn-from）。触发词："初始化"/"打分这篇"/"启动预测"/"已发布"/"复盘"/"升级 rubric"/"推荐选题"/"抓热点"/"状态"/"找对标"/"learn from"。**首次使用必须先跑 /cheat-init。**
+description: 给所有想把"感觉"变成可校准预测的内容创作者。**方法论通用**——打分 → 盲预测 → T+3d 复盘 → 进化 rubric 的循环适用任何能被量化（播放 / 阅读 / 收听 / 点击）的内容。**rubric 是循环的内容，不是循环本身**——当前内置一份观点视频 rubric（参考博主 25+ 视频拟合），其他形态可借这套起步并 bump 调权重。**强烈建议导入对标账号**作为初始信号源（/cheat-learn-from）。触发词："初始化"/"打分这篇"/"启动预测"/"已发布"/"复盘"/"升级 rubric"/"推荐选题"/"抓热点"/"状态"/"找对标"/"learn from"/"研究这个赛道"/"group research"。**首次使用必须先跑 /cheat-init。**
 argument-hint: [draft-path] [— mode: cold-start|calibration]
 allowed-tools: Bash(*), Read, Write, Edit, Grep, Glob, Skill, mcp__llm-chat__chat
 ---
@@ -51,6 +51,7 @@ Codex 没有 Claude Code 的 slash-command harness。安装到 Codex 后，按�
 | 用户说 | 调用 | 前置条件 |
 |---|---|---|
 | "初始化" / "init" / "首次使用" | `/cheat-init` | 无（这是入口） |
+| "研究这个赛道" / "分析同类账号" / "看看竞争对手" / "group research" / "找赛道白空" / "我想了解这个圈子" | `/cheat-group-research` | 无（可在 init 之前跑，用来决定要不要进这个赛道） |
 | "找对标" / "学这个账号" / "拆这几个对标视频" / "learn from" / "导入对标账号" | `/cheat-learn-from` | 已 init；cold-start 强烈建议；后续可随时 --append / --replace |
 | "找选题" / "我不知道拍什么" / "seed" / "找前 5 个选题" | `/cheat-seed` | 已 init（cold-start 用户专用一次性种子动作） |
 | "打分这篇 [path]" / "score this [path]" | `/cheat-score` | rubric_notes.md 存在 |
@@ -133,6 +134,7 @@ cheat-on-content/
 ├── skills/                            # 子 skill 集
 │   ├── cheat-init/SKILL.md            # ✅ 入口：onboarding 与脚手架
 │   ├── cheat-learn-from/SKILL.md      # ✅ 对标账号导入（拆 pattern + 派生 base rubric 信号）
+│   ├── cheat-group-research/SKILL.md  # ✅ 赛道竞争格局分析（多账号横向扫描 + 白空识别）
 │   ├── cheat-seed/SKILL.md            # ✅ Cold-start 选题启动器（brainstorm + 可选 draft）
 │   ├── cheat-score/SKILL.md           # ✅ 单稿打分（不写文件）
 │   ├── cheat-predict/SKILL.md         # ✅ 盲预测 + immutable 日志

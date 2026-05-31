@@ -8,6 +8,30 @@ All notable changes to cheat-on-content will be documented here.
 
 ## [Unreleased]
 
+### Added — cheat-group-research：赛道竞争格局分析新 skill
+
+**背景**：`/cheat-learn-from` 假设用户已经选好了一个对标账号，但很多用户在选对标之前不知道这个赛道里都有谁、谁在做什么、哪里还有机会。缺少一个"进赛道之前先扫战场"的工具。
+
+**新增** `/cheat-group-research`：一次分析 3-8 个同类账号，绘制竞争格局地图，识别白空（无人做或做烂的细分），推荐最佳 benchmark 账号。是 `/cheat-learn-from` 的前哨动作。
+
+关键设计决策：
+- **广度扫描，不深挖**：每账号只要 top 3 样本 + 粉丝量级——与 `/cheat-learn-from` 的 5-15 条深挖形成互补
+- **可在 init 之前跑**：用于赛道选择决策，不强制 `.cheat-state.json` 存在
+- **三类白空**：格局白空（象限无人占）/ 表现白空（偶发高播放但无人持续做）/ 受众白空（某类受众没被服务到）
+- **白空有证据**：每个机会必须引用账号数据作证据，不接受凭感觉的白空声明
+- **可选注入 candidates**：`— inject-candidates` 参数把白空机会写进 `candidates.md`（标 `source: group_research, read_status: skim`）
+- **有 benchmark 时对比**：用户已有对标账号时，明确说"换 vs 不换"，不默认推翻
+
+与已有 skill 的分工：
+
+| Skill | 分工 |
+|---|---|
+| `/cheat-group-research` | 赛道横向扫描 → 定位 → 选 benchmark（**新**） |
+| `/cheat-learn-from` | 单账号纵向深挖 → rubric 信号（原有） |
+| `/cheat-seed` | 选题对话 → draft（原有） |
+
+输出：`group_research/<赛道名>.md`（持久化竞争格局报告）
+
 ### Fixed — cheat-seed draft 写成字幕格式（一句一行）
 
 **问题**：用户反馈 cheat-seed 写的 draft 正文是"一句话一行"的字幕格式，而不是段落版。根因不是文档缺失——"不要字幕格式"的指令在 4 个文件里都有，但**全是散文指令**。生成 draft 那一刻，模型"video script = 提词器短行"的训练先验压过了埋在 Phase 4 散文里的一句话。

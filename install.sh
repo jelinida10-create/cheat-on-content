@@ -26,6 +26,7 @@ set -euo pipefail
 SUB_SKILLS=(
   cheat-init
   cheat-learn-from
+  cheat-group-research
   cheat-seed
   cheat-score
   cheat-score-blind

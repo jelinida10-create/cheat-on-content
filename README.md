@@ -114,7 +114,7 @@ bash install.sh
 
 > ⚠️ **Upgrading from v0.x?** Run `/cheat-migrate` in your content project after `git pull`. The 1.3 → 1.4 migration is **BREAKING for blind-channel integrity** — it splits `rubric_notes.md` so the blind sub-agent can't leak actuals. Without migrate, blind scoring will keep flagging `non_blind_warning`. See [CHANGELOG](CHANGELOG.md) and [migrations/1.3-to-1.4.md](migrations/1.3-to-1.4.md).
 
-14 sub-skills are symlinked into your agent's skill directory. One install, every content project gets it.
+15 sub-skills are symlinked into your agent's skill directory. One install, every content project gets it.
 
 **Supported agents**: Claude Code (default) · Codex (`bash install.sh --codex`) · Both (`bash install.sh --all`)
 
@@ -147,6 +147,7 @@ shot scripts/<...>.md             → create video folder + buffer +1
 shipped https://...                → buffer -1
 retro videos/<...>/                → T+3d data + retrospective
 status / fetch trends / find topic / bump rubric / find benchmark
+group research <niche>                → map niche landscape + find white spaces
 ```
 
 Hook-aware agents auto-report buffer + pending retros + top candidates at every session start — no need to ask. Other agents: just say `status`.
